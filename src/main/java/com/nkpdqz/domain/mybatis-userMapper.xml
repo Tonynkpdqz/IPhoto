@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nkpdqz.dao.UserDao">
+    <insert id="register">
+        INSERT INTO user(username,password) VALUES (#{0},#{1})
+    </insert>
+
+    <resultMap id="userMap" type="com.nkpdqz.domain.User">
+        <id column="id" property="id"/>
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="username" property="username"/>
+    </resultMap>
+
+    <select id="findUserByUsernameAndPassword" resultMap="userMap">
+        SELECT username,password,id FROM user WHERE username=#{0} AND password=#{1}
+    </select>
+
+    <select id="getUsername" resultType="String">
+        SELECT username from user WHERE username=#{username}
+    </select>
+</mapper>

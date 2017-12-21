@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nkpdqz.dao.ImageDao">
+
+    <select id="getImagesByUserId" resultType="com.nkpdqz.domain.Image">
+        SELECT * FROM image WHERE user_id = #{0} ORDER BY date DESC
+    </select>
+
+
+    <insert id="addImage">
+        INSERT INTO image(name,url,date,user_id) VALUES (#{0},#{1},#{2},#{3})
+    </insert>
+
+    <delete id="deleteImageById">
+        DELETE FROM image WHERE id=#{0}
+    </delete>
+</mapper>

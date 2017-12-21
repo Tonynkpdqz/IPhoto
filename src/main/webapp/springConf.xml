@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+            "
+       default-autowire="byName">
+
+    <context:component-scan base-package="com.nkpdqz.dao"/>
+    <context:component-scan base-package="com.nkpdqz.service"/>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/iphoto"/>
+        <property name="user" value="root"/>
+        <property name="password" value="nkpdqz401980386"/>
+        <property name="minPoolSize" value="1" />
+        <property name="maxPoolSize" value="20" />
+        <property name="maxIdleTime" value="1800" />
+        <property name="acquireIncrement" value="2" />
+        <property name="maxStatements" value="0" />
+        <property name="initialPoolSize" value="2" />
+        <property name="idleConnectionTestPeriod" value="1800" />
+        <property name="acquireRetryAttempts" value="30" />
+        <property name="breakAfterAcquireFailure" value="true" />
+        <property name="testConnectionOnCheckout" value="false" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:com/nkpdqz/domain/mybatis-*.xml"/>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.nkpdqz.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>
